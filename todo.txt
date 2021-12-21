@@ -1,0 +1,9 @@
+
+Referance : 
+https://stackoverflow.com/questions/32824781/laravel-load-settings-from-database
+https://www.pakainfo.com/laravel-global-variable/
+https://www.pakainfo.com/laravel-global-variables-example-tutorial/
+https://stackoverflow.com/questions/32942379/global-variable-in-laravel-controller/32942959
+https://qcode.in/
+https://github.com/qcod/laravel-app-settings
+https://qcode.in/save-laravel-app-settings-in-database/

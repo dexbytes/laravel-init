@@ -1,0 +1,9 @@
+.card {
+	box-shadow: 0 0 1rem 0 rgba(136,152,170,0.50)!important;
+}
+.ml-auto {
+    margin-left: auto!important;
+}
+.mr-auto {
+    margin-right: auto!important;
+}
