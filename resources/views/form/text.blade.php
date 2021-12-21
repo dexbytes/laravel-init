@@ -2,7 +2,7 @@
     <label class="form-control-label form-check-inline" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
     <input type="{{ $field['type'] }}"
            name="{{ $field['name'] }}"
-           value="{{ old($field['name'], \setting($field['name'])) }}"
+           value="{{ old($field['name'], $field['value']) }}"
            class="form-control {{ Arr::get( $field, 'class') }}"
            id="{{ $field['name'] }}"
            placeholder="{{ $field['label'] }}">

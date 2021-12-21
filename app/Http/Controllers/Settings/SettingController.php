@@ -6,6 +6,8 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use \App\Dexlib\Form;
+use Storage;
  
 class SettingController extends Controller
 {
@@ -14,7 +16,7 @@ class SettingController extends Controller
      * @return html
      */
     public function general()
-    {   
+   {    
         return view('settings.general');
     }
 
@@ -34,11 +36,11 @@ class SettingController extends Controller
             $fileName = time().'_application_logo_'.$request->file('logo')->getClientOriginalName();
             
              //Move Uploaded File
-            $filePath = $request->file('logo')->storeAs('uploads/logo', $fileName, 'public');
-            $fileName = '/storage/' . $filePath;
+            $fileName = $request->file('logo')->storeAs('logo', $fileName, 'public');
+            $data['logo'] = $fileName;
         }
  
-        $data['logo'] = $fileName;
+       
         foreach ($data as $key => $val) {
             if( in_array($key, $validSettings) ) { 
                 Setting::add($key, $val, Setting::getDataType($key));
@@ -54,5 +56,18 @@ class SettingController extends Controller
         return redirect()->back()->with('status', 'Settings has been saved.');
     }
 
+
+    /**
+     * @param null
+     * @return html
+     */
+    public function demo()
+   {    
+       echo "<pre>";
+        Form::setModel(\App\Form\Setting::get());
+        $newdata = Form::populate();
+        print_r($newdata);
+       die;
+    }
 
 }

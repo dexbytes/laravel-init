@@ -31,27 +31,30 @@ class Setting extends \App\Dexlib\Form
 			                'data' => 'string',
 			                'name' => 'app_name',
 			                'label' => __('application.App Name'),
-			                'rules' => 'required|min:2|max:50'
+			                'rules' => 'required|min:2|max:50',
+			                'value' => config('app.name')
 			            ],
 			            [
 			                'type' => 'text',
 			                'data' => 'string',
 			                'name' => 'app_sort_name',
 			                'label' => __('application.App Sort Name'),
-			                'rules' => 'required|min:2|max:5'
+			                'rules' => 'required|min:2|max:5',
+			                'value' => ''
 			            ],
 			            [
 			                'type' => 'text',
 			                'data' => 'string',
 			                'name' => 'lagline',
-			                'label' => __('application.Tagline')
+			                'label' => __('application.Tagline'),
+			                'value' => ''
 			            ],
 			            [
 			                'type' => 'file',
 			                'data' => 'string',
 			                'name' => 'logo',
 			                'label' => __('application.Logo'),
-			                'rules' => 'required|mimes:pdf,jpg,png'
+			                'rules' => 'mimes:pdf,jpg,png'
 			            ]
 			        ]
 			    ],
@@ -216,13 +219,15 @@ class Setting extends \App\Dexlib\Form
 			                'type' => 'email',
 			                'name' => 'from_email',
 			                'label' => __('application.From Email'),
-			                'rules' => 'required|email'
+			                'rules' => 'required|email',
+			                'value' => ''
 			            ],
 			            [
 			                'type' => 'text',
 			                'name' => 'from_name',
 			                'label' => __('application.From Name'),
-			                'rules' => 'required|min:2|max:50'
+			                'rules' => 'required|min:2|max:50',
+			                'value' => ''
 			            ]			            
 			        ]
 			    ],

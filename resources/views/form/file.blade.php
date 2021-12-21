@@ -13,4 +13,8 @@
         </small> 
     @endif
 </div>
-
+@if(\setting('logo'))
+<div class="mt-2">
+    <img class="img-thumbnail form-logo" src="{{asset(old('logo', \setting('logo')))}}" >
+</div>
+@endif

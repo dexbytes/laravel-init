@@ -10,7 +10,10 @@ abstract class Form {
      * @var array
      */
     public static $_model = [];
-
+    /**
+     * @var array
+     */
+    public static $_values = [];
 
 
      /**
@@ -42,9 +45,13 @@ abstract class Form {
      *
      * @return Collection
      */
-    private static function getDefinedFields()
-    { 
-        return collect(self::$_model)->pluck('elements')->flatten(1);
+    public static function getDefinedFields()
+    {   
+        if (!empty(self::$_model)) {
+            return collect(self::$_model)->pluck('elements')->flatten(1);
+        }
+
+        return [];
     }
 
     /**
@@ -61,4 +68,29 @@ abstract class Form {
 
         return is_null($type) ? 'string' : $type;
     }
+
+
+     /**
+     *set form values
+     *
+     * @param $array|data
+     * @return $array
+     */
+    public static function populate($data = []){
+
+        $collection = [];
+        self::$_values = $data;
+ 
+        if (!empty(self::$_model)) {
+            $collection = self::getDefinedFields()->map(function ($item){ 
+                $value = self::$_values;  
+                $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : '';
+                 return $item;
+            });
+        }
+
+        return $collection;        
+    }
+
+
 }

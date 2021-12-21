@@ -143,7 +143,7 @@ class Setting extends Model
      * @param $default
      * @return mixed
      */
-    private static function getDefaultValue($key, $default)
+    private static function getDefaultValue($key, $default = null)
     {
         return is_null($default) ? self::getDefaultValueForField($key) : $default;
     }
@@ -153,7 +153,7 @@ class Setting extends Model
      *
      * @return Collection
      */
-    private static function getDefinedSettingFields()
+    public static function getDefinedSettingFields()
     { 
         return collect(\App\Form\Setting::get())->pluck('elements')->flatten(1);
     }

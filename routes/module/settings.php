@@ -22,6 +22,9 @@ Route::group(['middleware' => ['auth']], function () {
         //Translation settings
          Route::get('/translation', [TranslationController::class, 'index'])->name('translation.index');   
         Route::get('/translation/edit/{lang}', [TranslationController::class, 'edit'])->name('translation.edit'); 
+
+        //Demo
+        Route::get('/demo', [SettingController::class, 'demo'])->name('settings.demo');
     });
 
 });

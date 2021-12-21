@@ -13,9 +13,9 @@
                             @foreach(App\Form\Setting::get() as $section => $fields)
                                 <div class="card">
                                  <h5 class="card-header bg-light">
-                                    <label class="card-title">{{ $fields['title'] }}</label>
+                                    <label class="card-title">{{ $fields['title'] }} </label>
                                 </h5>
-
+                
                                 <div class="card-body">
                                     <h6 class="card-subtitle mb-2 text-muted">{{  $fields['desc'] }}</h6>
 
