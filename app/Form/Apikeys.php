@@ -80,10 +80,10 @@ class Apikeys extends \App\Dexlib\Form {
 			            ],
 			            [
 			                'type' => 'file',
-			                'data' => 'json',
+			                'data' => 'string',
 			                'name' => 'google_services_json',
 			                'label' => __('application.Google Services json File'),
-			                'rules' => '',
+			                'rules' => 'mimes:json',
 			                'value' => ''
 			            ]
 

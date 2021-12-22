@@ -11,7 +11,7 @@ class Setting extends \App\Dexlib\Form
      * @var array
      */
 	public function __construct() {
-
+		
 	  parent::__construct($this);
     }
 
@@ -91,17 +91,6 @@ class Setting extends \App\Dexlib\Form
 			                'name' => 'enable_registration',
 			                'label' => __('application.Enable Registration'),
 			                'value' => config('dex.enableRegister'),
-			                'rules' => ''
-			            ],
-			            [
-			                'type' => 'radio',
-			                'data' => 'string',
-			                'name' => 'site_mode',
-			                'label' => 'Site Mode',
-			                'options' => [
-			                	'up' => 'UP',
-			                	'down' => 'DOWN'
-			                ],
 			                'rules' => ''
 			            ]
 			        ]

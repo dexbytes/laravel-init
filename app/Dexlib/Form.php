@@ -110,7 +110,7 @@ abstract class Form {
             foreach (self::$_elements as $key => $value) {
                 $value['elements'] = collect($value['elements'])->map(function ($item){ 
                     $value = self::$_values;  
-                    $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : '';
+                    $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : !empty($item['value']) ? $item['value'] : '';
                      return $item;
                 })->toArray();
 
