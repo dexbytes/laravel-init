@@ -3,9 +3,9 @@
         <label class="form-control-label form-check-inline">
             <input name="{{ $field['name'] }}" 
                     class="form-check-input" 
-                    value="{{$field['value']}}" 
+                    value="{{ $field['value'] }}" 
                     type="checkbox" 
-                    @if(old($field['name'], \setting($field['name']))) checked="checked" @endif
+                    @if(old($field['name'], $field['value'])) checked="checked" @endif
                     >
             {{ $field['label'] }}
         </label>

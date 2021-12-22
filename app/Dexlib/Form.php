@@ -4,7 +4,7 @@ namespace App\Dexlib;
 
 abstract class Form {
 
-    abstract static protected function get();
+    abstract static protected function getElements();
 
     /**
      * @var array
@@ -14,6 +14,23 @@ abstract class Form {
      * @var array
      */
     public static $_values = [];
+
+
+    /**
+     * Form elements
+     * @var array
+     */
+    protected static $_elements = array();
+
+
+    /**
+     * @var array
+     */
+    public function __construct($obj = null) {
+        if (empty(self::$_elements) && !empty($obj)) {
+            $this->setElements($obj->getElements());
+        }
+    }
 
 
      /**
@@ -26,6 +43,15 @@ abstract class Form {
         self::$_model = $model;
     }
 
+     /**
+     * set the elements
+     *
+     * @return array
+     */
+    public static function setElements($elements)
+    {
+        self::$_elements = $elements;
+    }
 
      /**
      * Get the validation rules for fields
@@ -47,8 +73,8 @@ abstract class Form {
      */
     public static function getDefinedFields()
     {   
-        if (!empty(self::$_model)) {
-            return collect(self::$_model)->pluck('elements')->flatten(1);
+        if (!empty(self::$_elements)) {
+            return collect(self::$_elements)->pluck('elements')->flatten(1);
         }
 
         return [];
@@ -76,19 +102,22 @@ abstract class Form {
      * @param $array|data
      * @return $array
      */
-    public static function populate($data = []){
-
+    public static function populate($values = []){
+       
         $collection = [];
-        self::$_values = $data;
- 
-        if (!empty(self::$_model)) {
-            $collection = self::getDefinedFields()->map(function ($item){ 
-                $value = self::$_values;  
-                $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : '';
-                 return $item;
-            });
-        }
+        self::$_values = $values;
+        if (!empty(self::$_elements)) {
+            foreach (self::$_elements as $key => $value) {
+                $value['elements'] = collect($value['elements'])->map(function ($item){ 
+                    $value = self::$_values;  
+                    $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : '';
+                     return $item;
+                })->toArray();
 
+                $collection[$key] = $value;
+            }
+        }
+        
         return $collection;        
     }
 

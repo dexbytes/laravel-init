@@ -2,7 +2,7 @@
     <label class="form-control-label form-check-inline" for="{{ $field['name'] }}">{{ $field['label'] }}</label>
     <input type="{{ $field['type'] }}"
            name="{{ $field['name'] }}"
-           value="{{ old($field['name'], \setting($field['name'])) }}"
+           value="{{ old($field['name']) }}"
            class="form-control {{ Arr::get( $field, 'class') }}"
            id="{{ $field['name'] }}"
            placeholder="{{ $field['label'] }}">
@@ -13,8 +13,8 @@
         </small> 
     @endif
 </div>
-@if(\setting('logo'))
+@if($field['value'])
 <div class="mt-2">
-    <img class="img-thumbnail form-logo" src="{{asset(old('logo', \setting('logo')))}}" >
+    <img class="img-thumbnail form-logo" src="{{asset(old('logo', $field['value']))}}" >
 </div>
 @endif

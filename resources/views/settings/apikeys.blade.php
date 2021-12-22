@@ -10,8 +10,8 @@
                     
                     <form id="settingsValidation" method="post" action="{{ route('apikeys.store') }}" class="form-horizontal" role="form">
                         @csrf
-                        @if(count(App\Form\Apikeys::get()))                            
-                            @foreach(App\Form\Apikeys::get() as $section => $fields)
+                        @if(count($elements))                            
+                            @foreach($elements as $section => $fields)
                                 <div class="card">
                                  <h5 class="card-header bg-light">
                                     <label class="card-title">{{ $fields['title'] }}</label>

@@ -155,7 +155,7 @@ class Setting extends Model
      */
     public static function getDefinedSettingFields()
     { 
-        return collect(\App\Form\Setting::get())->pluck('elements')->flatten(1);
+        return collect(\App\Form\Setting::getElements())->pluck('elements')->flatten(1);
     }
 
     /**

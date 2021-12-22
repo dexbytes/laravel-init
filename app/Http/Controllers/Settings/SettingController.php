@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use \App\Dexlib\Form;
+use App\Form\Setting as formSetting;
 use Storage;
  
 class SettingController extends Controller
@@ -17,7 +17,16 @@ class SettingController extends Controller
      */
     public function general()
    {    
-        return view('settings.general');
+        $formData = [];         
+        $setttings = Setting::all();
+        foreach ($setttings->toArray() as $key => $value) {
+           $formData[$value['name']] = $value['val'];
+        }
+
+        $form = new formSetting();
+        $elements = $form->populate($formData);
+  
+        return view('settings.general', compact('elements'));
     }
 
     /**
@@ -26,9 +35,12 @@ class SettingController extends Controller
      */
     public function store(Request $request) {  
         
-        $rules = Setting::getValidationRules(); 
+        $form = new formSetting(); 
+        $rules = $form->getValidationRules(); 
         $data = $this->validate($request, $rules);
         $validSettings = array_keys($rules);
+
+
         $request->has('enable_registration') ? $data['enable_registration'] = true : $data['enable_registration'] = false; 
 
         $fileName = '';
@@ -56,18 +68,5 @@ class SettingController extends Controller
         return redirect()->back()->with('status', 'Settings has been saved.');
     }
 
-
-    /**
-     * @param null
-     * @return html
-     */
-    public function demo()
-   {    
-       echo "<pre>";
-        Form::setModel(\App\Form\Setting::get());
-        $newdata = Form::populate();
-        print_r($newdata);
-       die;
-    }
-
+ 
 }

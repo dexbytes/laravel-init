@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use \App\Dexlib\Form;
+use \App\Form\Configuration;
 
 
 class ConfigurationController extends Controller
@@ -18,18 +18,28 @@ class ConfigurationController extends Controller
      */
     public function index()
     {   
-        return view('settings.configuration');
+        $formData = [];         
+        $setttings = Setting::all();
+        foreach ($setttings->toArray() as $key => $value) {
+           $formData[$value['name']] = $value['val'];
+        }
+
+        $form = new Configuration();
+        $elements = $form->populate($formData);
+  
+        return view('settings.configuration', compact('elements'));
     }
 
     public function store(Request $request) {  
 
-        Form::setModel(\App\Form\Configuration::get());
-        $rules = Form::getValidationRules(); 
+        $form = new Configuration(); 
+        $rules = $form->getValidationRules(); 
         $data = $this->validate($request, $rules);
-        $validSettings = array_keys($rules);         
+        $validSettings = array_keys($rules);
+
         foreach ($data as $key => $val) {
             if(in_array($key, $validSettings)) { 
-                Setting::add($key, $val, Form::getDataType($key));
+                Setting::add($key, $val, $form->getDataType($key));
             }
         }
 

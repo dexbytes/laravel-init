@@ -7,7 +7,16 @@ use Spatie\Permission\Models\Role;
 class Configuration extends \App\Dexlib\Form
 {	
 
-	public static function get(){
+	/**
+     * @var array
+     */
+	public function __construct() {
+
+	  parent::__construct($this);
+    }
+    
+
+	public static function getElements(){
 
 		return [
 

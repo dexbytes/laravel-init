@@ -7,7 +7,7 @@
                         class="form-check-input" 
                         value="{{$val}}" 
                         type="radio" 
-                        @if( old($field['name'], \setting($field['name'])) == $val ) checked="checked"  @endif
+                        @if( old($field['name'], $field['value']) == $val ) checked="checked"  @endif
                         >
                 {{ $label }}
             </label>

@@ -11,8 +11,8 @@
                     
                     <form id="settingsValidation" method="post" action="{{ route('configuration.store') }}" class="form-horizontal" role="form">
                         @csrf
-                        @if(count(App\Form\Configuration::get()))                            
-                            @foreach(App\Form\Configuration::get() as $section => $fields)
+                        @if(count($elements))                            
+                            @foreach($elements as $section => $fields)
                                 <div class="card">
                                  <h5 class="card-header bg-light">
                                     <label class="card-title">{{ $fields['title'] }}</label>
