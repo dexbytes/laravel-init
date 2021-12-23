@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Dexlib;
+use Arr;
 
 abstract class Form {
 
@@ -108,13 +109,23 @@ abstract class Form {
         self::$_values = $values;
         if (!empty(self::$_elements)) {
             foreach (self::$_elements as $key => $value) {
-                $value['elements'] = collect($value['elements'])->map(function ($item){ 
-                    $value = self::$_values;  
-                    $item['value'] = !empty($value[$item['name']]) ? $value[$item['name']] : !empty($item['value']) ? $item['value'] : '';
-                     return $item;
-                })->toArray();
 
-                $collection[$key] = $value;
+                if(Arr::exists($value, 'elements')){
+                    $value['elements'] = collect($value['elements'])->map(function ($item){ 
+                        $formData = self::$_values;
+                        
+                        if(Arr::exists($formData, $item['name'])){
+                            $item['value'] = !empty($formData[$item['name']]) ? $formData[$item['name']] : '';
+                        }else{
+                             $item['value'] = !empty($item['value']) ? $item['value'] : '';
+                        }
+                        
+                       return $item;
+                       
+                    })->toArray();
+
+                    $collection[$key] = $value;
+                }
             }
         }
         

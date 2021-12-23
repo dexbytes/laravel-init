@@ -10,3 +10,6 @@
 .form-logo{
     width: 100px;
 }
+.has-error .help-block {
+    color: #dc3545;
+}

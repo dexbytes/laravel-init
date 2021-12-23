@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Settings;
 
 class Apikeys extends \App\Dexlib\Form {	
 
@@ -83,7 +83,7 @@ class Apikeys extends \App\Dexlib\Form {
 			                'data' => 'string',
 			                'name' => 'google_services_json',
 			                'label' => __('application.Google Services json File'),
-			                'rules' => 'mimes:json',
+			                'rules' => '',
 			                'value' => ''
 			            ]
 

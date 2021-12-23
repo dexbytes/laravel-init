@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use \App\Form\Apikeys;
+use \App\Form\Settings\Apikeys;
 
 
 class ApiController extends Controller
@@ -25,11 +25,11 @@ class ApiController extends Controller
         foreach ($setttings->toArray() as $key => $value) {
            $formData[$value['name']] = $value['val'];
         }
-
+ 
         $form = new Apikeys();
         $elements = $form->populate($formData);
-  
-        return view('settings.apikeys', compact('elements'));
+        
+       return view('settings.apikeys', compact('elements'));
     }
 
     /**

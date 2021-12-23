@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use App\Form\Setting as formSetting;
+use App\Form\Settings\Setting as formSetting;
 use Storage;
  
 class SettingController extends Controller

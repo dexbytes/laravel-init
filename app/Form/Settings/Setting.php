@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Settings;
 use DateTimeZone;
 use Spatie\Permission\Models\Role;
 

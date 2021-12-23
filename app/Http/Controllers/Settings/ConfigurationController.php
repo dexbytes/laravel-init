@@ -6,7 +6,7 @@ use App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-use \App\Form\Configuration;
+use \App\Form\Settings\Configuration;
 
 
 class ConfigurationController extends Controller
