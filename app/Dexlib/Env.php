@@ -34,7 +34,7 @@ class Env
         $str = substr($str, 0, -1);
         if (!file_put_contents($envFile, $str)) return false;
 
-       // Artisan::call('config:clear');
+        Artisan::call('config:clear');
         return true;
 
     }

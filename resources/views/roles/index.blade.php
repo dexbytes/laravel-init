@@ -48,6 +48,12 @@
                                      @endforeach
                                 </tbody>
                             </table>
+
+                            <div class="text-center"> 
+                                  {{ $roles->render("pagination::bootstrap-4") }}
+                            </div>
+
+
                         </div>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use \App\Form\Users\Role as RoleForm;
 use DB;
     
 class RoleController extends Controller
@@ -31,7 +32,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {   
-        $roles = Role::orderBy('id','DESC')->paginate(5);
+       $roles = Role::orderBy('id','ASC')->paginate(25);
         return view('roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -43,8 +44,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::get();
-        return view('roles.create',compact('permission'));
+        $form = new RoleForm();
+        $elements = $form->getElements();
+        return view('roles.create',compact('elements'));
     }
     
     /**
@@ -55,10 +57,9 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
+        $form = new RoleForm(); 
+        $rules = $form->getValidationRules(); 
+        $this->validate($request, $rules);
     
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
@@ -90,13 +91,20 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
-        $permission = Permission::get();
+        $role = Role::find($id);       
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-    
-        return view('roles.edit',compact('role','permission','rolePermissions'));
+
+        $formData = [];
+        $formData['id'] = $role->id;
+        $formData['name'] = $role->name;
+        $formData['permission'] = $rolePermissions;
+        
+        $form = new RoleForm();
+        $elements = $form->populate($formData);
+         
+        return view('roles.edit',compact('role','rolePermissions', 'elements'));
     }
     
     /**
@@ -107,12 +115,11 @@ class RoleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
-    
+    { 
+        $form = new RoleForm(); 
+        $rules = $form->getValidationRules(); 
+        $this->validate($request, $rules);
+
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
@@ -131,9 +138,6 @@ class RoleController extends Controller
     public function destroy($id)
     {   
         DB::table("roles")->where('id',$id)->delete();
-
         return response()->json(['response'=> true]);
-        //return redirect()->route('roles.index')
-                        //->with('success','Role deleted successfully');
     }
 }

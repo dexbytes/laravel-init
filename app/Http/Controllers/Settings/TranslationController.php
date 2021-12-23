@@ -11,6 +11,16 @@ use Lang;
 class TranslationController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    { 
+
+    }
+
+    /**
      * @param null
      * @return html
      */

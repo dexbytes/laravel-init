@@ -8,7 +8,7 @@ use App\Http\Controllers\Settings\TranslationController;
 Route::group(['middleware' => ['auth']], function () {
         // General Settings
         Route::prefix('settings')->group(function () {
-        Route::get('/general', [SettingController::class, 'general'])->name('settings.general');
+        Route::get('/general', [SettingController::class, 'index'])->name('settings.general');
         Route::post('/general/store', [SettingController::class, 'store'])->name('general.store');  
         
         //API Key settings

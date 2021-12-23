@@ -82,7 +82,7 @@ class Setting extends \App\Dexlib\Form
 			                'name' => 'default_role',
 			                'label' => __('application.Default User Role'),
 			                'rules' => 'required',
-			                'options' =>  Role::pluck('name','name')->all(),
+			                'options' => Role::pluck('name','name')->all(),
 			                'value' => config('dex.defaultRole')
 			            ],
 			            [

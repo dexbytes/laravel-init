@@ -79,4 +79,10 @@ return [
     'CaptchaWrong'     => 'Wrong captcha, please try again.',
     'roleRequired'     => 'User role is required.',
 
+    // Roles
+    'Manage Roles'    => 'Manage Roles',
+    'Role Name'    => 'Role Name',
+    'Permission'    => 'Permission',
+    'Assign a permissions'    => 'Assign a permissionss'
+
 ];

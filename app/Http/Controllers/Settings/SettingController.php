@@ -12,10 +12,20 @@ use Storage;
 class SettingController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    { 
+
+    }
+
+    /**
      * @param null
      * @return html
      */
-    public function general()
+    public function index()
    {    
         $formData = [];         
         $setttings = Setting::all();
