@@ -9,23 +9,24 @@
     <meta name="theme" color="{{env('APP_THEME')}}">
 
     <title>{{ config('app.name', 'Laravel') }} | {{ isset($title) ? $title : 'Home' }}</title>
-
-    <!-- Styles -->
-    <link type="text/css" href="{{ asset('css/light-bootstrap-dashboard.css?v=2.0.1') }}" rel="stylesheet">
-    
-    <link type="text/css" href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('css/style.css') }}" rel="stylesheet">
     
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
-    <!-- CSS file-->
 
-     <!-- jquery-confirm -->
+    <!-- Styles -->
+    <link type="text/css" href="{{ asset('css/light-bootstrap-dashboard.css') }}" rel="stylesheet">    
+    <link type="text/css" href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    <!-- jquery-confirm -->
     <link type="text/css" href="{{ asset('css/jquery-confirm.min.css') }}" rel="stylesheet">
 
-    @stack('css')
+    <!-- custom CSS file-->
+    <link type="text/css" href="{{ asset('css/style.css') }}" rel="stylesheet">
+
+    @stack('css')    
+    
 </head>
 <body>
     <div class="wrapper @guest wrapper-full-page @endguest">
@@ -79,8 +80,10 @@
     <script src="{{ asset('js/plugins/jquery.dataTables.min.js') }}"></script>
     <!--  Full Calendar   -->
     <script src="{{ asset('js/plugins/fullcalendar.min.js') }}"></script>
+
     <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('js/light-bootstrap-dashboard.js?v=2.0.1') }}" type="text/javascript"></script>
+
     <!-- Light Dashboard DEMO methods, don't include it in your project! -->
     <script src="{{ asset('js/demo.js') }}"></script>
 
@@ -90,5 +93,6 @@
 
     <!-- Custom functions -->
     <script src="{{ asset('js/custom.js') }}"></script>
+
     @stack('js')
 </html>

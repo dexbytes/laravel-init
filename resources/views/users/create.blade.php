@@ -20,7 +20,7 @@
                         <div class="card-body">
                            <div class="row">
                            <div class="col-md-7 offset-md-1"> 
-                            <form id="RegisterValidation" method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
+                            <form id="registerValidation" method="post" action="{{ route('users.store') }}" enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="pl-lg-4">
@@ -28,7 +28,7 @@
                                         <label class="form-control-label" for="input-name">
                                             {{ __('Name') }}
                                         </label>
-                                        <input type="text" name="name" id="input-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name') }}" required="true" autofocus>
+                                        <input type="text" name="name" id="input-name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" placeholder="{{ __('Name') }}" value="{{ old('name') }}" required autofocus>
         
                                         @include('alerts.feedback', ['field' => 'name'])
                                     </div>
@@ -88,8 +88,8 @@
 
 @push('js')
 <script type="text/javascript">
-       $(document).ready(function() {
-            setFormValidation('#RegisterValidation');
-        });
-    </script>
+   $(document).ready(function() {
+       setFormValidation('#registerValidation');
+    });
+</script>
 @endpush
