@@ -8,8 +8,17 @@ use Illuminate\Http\Request;
 use File;
 use Lang;
 
+
 class TranslationController extends Controller
 {
+    
+    private $lang = '';
+    private $file;
+    private $key;
+    private $value;
+    private $path;
+    private $arrayLang = array();
+
     /**
      * Display a listing of the resource.
      *
@@ -33,8 +42,11 @@ class TranslationController extends Controller
      * @param null
      * @return html
      */
-    public function edit($lang = 'en')
+    public function edit($lang = 'en', $fileName = null)
     {   
+        $this->lang = $lang;
+        if(!File::isDirectory(base_path().'/resources/lang/'.$this->lang)) return redirect()->route('translation.edit', ['lang' => $this->lang])->withErrors([__('application.Language not found!')]);
+
         $language = \App\Dexlib\Locale::getActiveLang();
         $langName = $language[$lang];
         $filesInFolder = File::allFiles('../resources/lang/en');
@@ -43,17 +55,151 @@ class TranslationController extends Controller
         foreach ($filesInFolder as $key => $value) {
            $data = [
                 'file_path' => $value->getPathName(),
-                'file_name' => $value->getFileName(),
+                'file_name' => $value->getFileName(),                
                 'code' => pathinfo($value->getFileName(), PATHINFO_FILENAME),
                 'name' => ucfirst(pathinfo($value->getFileName(), PATHINFO_FILENAME))
            ];  
-           $files[] = $data;
+           $files[pathinfo($value->getFileName(), PATHINFO_FILENAME)] = $data;
         }
- 
-     /*   $array = Lang::get('pagination'); // return entire array
-        $text  = Lang::get('pagination.next'); // return single item
+        
+        $contents = [];    
+        if(!empty($fileName)){
+            $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$fileName.'.php';
+            $englishMainPath = base_path().'/resources/lang/en/'.$fileName.'.php';
+            if(!File::exists($englishMainPath)) return redirect()->route('translation.edit', ['lang' => $this->lang])->withErrors([__('application.File not found!')]);
+  
+            $this->file = $fileName;
+            $this->read();
+            $contents = $this->arrayLang;
+        }        
+
+        return view('settings.translation.list', compact('langName', 'lang', 'files', 'contents', 'fileName'));
+    }
+
+  
+    /**
+     * @param Request
+     * @return Redirect
      */
-       return view('settings.translation.list', compact('langName', 'lang', 'files'));
+    public function save(Request $request) 
+    {    
+        $this->lang = $request->input('lang');
+        $this->file =  $request->input('fileName');
+        $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
+        $this->read(true);
+      
+        $payload = $request->all(); 
+        $contents = $payload['translationValues']; 
+
+        $content = "<?php \n\n return [ \n ";
+        foreach ($this->arrayLang as $key => $value) 
+        {
+            if(!is_array($value)){ //Single Array                         
+                if(!empty($contents[$key])){
+                    $value = $contents[$key];
+                    $content .= "\t'".$key."' => '".$value."',\n";
+                }                  
+            
+            }else{
+                //MultiDimention Array
+                $contentParentChild = "\t [ \n ";
+                foreach ($value as $pckey => $pcvalue) 
+                {
+                    if(!is_array($pcvalue)){
+                        $contentParentChild .= "\t\t'".$pckey."' => '".$pcvalue."',\n";
+                    }else{
+                        $contentChild = "\t [ \n ";
+                        foreach ($pcvalue as $ckey => $cvalue)  { 
+                            if(!is_array($cvalue)){
+                                $contentChild .= "\t\t\t'".$ckey."' => '".$cvalue."',\n";
+                            }
+                        }
+                        $contentChild .= "\t],\n";  
+                        if(is_array((array) $contentChild)){
+                           $contentParentChild .= "\t'".$pckey."' => ".$contentChild."";
+                        }else{
+                           $contentParentChild .= "\t'".$pckey."' => '".$contentChild."',\n"; 
+                        }       
+                    }
+                }
+
+                $contentParentChild .= "\t],\n";      
+
+                if(is_array((array) $contentParentChild)){
+                   $content .= "\t'".$key."' => ".$contentParentChild."";
+                }else{
+                   $content .= "\t'".$key."' => '".$contentParentChild."',\n"; 
+                }             
+
+            }            
+                        
+        }
+
+        $content .= "];";  
+
+        file_put_contents($this->path, $content);
+
+       return redirect()->back()->with('status', __('application.Translations updated successfully.'));
+    }
+
+     /**
+     * @param null
+     * @return null
+     */
+    private function read($isOriginal = false) 
+    {   
+        $this->arrayLang = array();
+        if ($this->lang != '') {
+            
+            $content = [];
+            $englishMainPath = base_path().'/resources/lang/en/'.$this->file.'.php';
+            $content = File::getRequire($englishMainPath);
+           
+            if(!$isOriginal && is_array($content)){                
+                $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
+                
+                if(!File::exists($this->path)){
+                    File::copy($englishMainPath, $this->path);
+                   // file_put_contents( $this->path, ''); 
+                    $tranContent = File::getRequire($this->path);           
+                }else{
+                    $tranContent = File::getRequire($this->path);
+                }
+                
+                foreach ($content as $key => $value) {
+                    $content[$key] = !empty($tranContent[$key]) ? $tranContent[$key] : '';
+                }
+            }
+
+            $this->arrayLang = $content;
+            if (gettype($this->arrayLang) == 'string') $this->arrayLang = array();
+        
+        }
+
+    }
+
+
+   /**
+     * @param array
+     * @return json
+     */
+    private function translate() 
+    {   
+        //yandex
+        $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandex_key . "&text=%TEXT%&lang=en-%TARGET%";
+        $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
+        $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
+
+        $response = Siberian_Json::decode(file_get_contents($url));
+
+        /** Try with google */
+        $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=%TARGET%&dt=t&q=%TEXT%";
+        $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
+        $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
+
+        $response = Siberian_Json::decode(file_get_contents($url));
+        $result = $response[0][0][0];
+
     }
 
 }

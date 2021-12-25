@@ -79,6 +79,14 @@ return [
     'Language' => 'Language',
     'Action' => 'Action',
     'Edit' => 'Edit',
-    'Edit the language :name' => 'Edit the language :name'
+    'Edit the language :name' => 'Edit the language :name',
+    'Translations updated successfully.' => 'Translations updated successfully.',
+    'Select a file' => 'Select a file',
+    'Key' => 'Key',
+    'Translation' => 'Translation',
+    'Back' => 'Back',
+    'Language not found!' => 'Language not found!',
+    'File not found!' => 'File not found!',
+    'leave blank to use default translation' => 'leave blank to use default translation'
 ];
 
