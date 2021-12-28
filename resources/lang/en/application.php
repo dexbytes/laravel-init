@@ -87,6 +87,9 @@ return [
     'Back' => 'Back',
     'Language not found!' => 'Language not found!',
     'File not found!' => 'File not found!',
-    'leave blank to use default translation' => 'leave blank to use default translation'
+    'leave blank to use default translation' => 'leave blank to use default translation',
+    'Default translation' => 'Default translation',
+    'Translate Missing' => 'Translate Missing',
+    'Create a new language' => 'Create a new language'
 ];
 

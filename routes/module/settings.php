@@ -20,9 +20,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/configuration/store', [ConfigurationController::class, 'store'])->name('configuration.store'); 
 
         //Translation settings
+        Route::get('/translation/create', [TranslationController::class, 'create'])->name('language.create'); 
+        Route::post('/translation/store', [TranslationController::class, 'store'])->name('language.store');   
         Route::get('/translation', [TranslationController::class, 'index'])->name('translation.index');   
         Route::get('/translation/edit/{lang}/{file?}', [TranslationController::class, 'edit'])->name('translation.edit');
-        Route::post('/translation/save', [TranslationController::class, 'save'])->name('translation.save'); 
+        Route::post('/translation/save', [TranslationController::class, 'save'])->name('translation.save');
+        Route::post('/translation/translate', [TranslationController::class, 'translate'])->name('translation.translate');  
 
     });
 

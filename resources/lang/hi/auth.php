@@ -54,8 +54,8 @@
 	'captchaRequire' => 'कैप्चा आवश्यक है',
 	'CaptchaWrong' => 'गलत कैप्चा, कृपया पुनः प्रयास करें।',
 	'roleRequired' => 'उपयोगकर्ता की भूमिका आवश्यक है।',
-	'Manage Roles' => 'Manage Roles',
-	'Role Name' => 'Role Name',
-	'Permission' => 'Permission',
-	'Assign a permissions' => 'Assign a permissionss',
+	'Manage Roles' => 'भूमिकाएँ प्रबंधित करें',
+	'Role Name' => 'भूमिका का नाम',
+	'Permission' => 'अनुमति',
+	'Assign a permissions' => 'निरुपित एक permissionss',
 ];

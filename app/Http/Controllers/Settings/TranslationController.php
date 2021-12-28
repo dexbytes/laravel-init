@@ -38,6 +38,32 @@ class TranslationController extends Controller
         return view('settings.translation.language');
     }
 
+
+   /**
+     * @param null
+     * @return html
+     */
+    public function create()
+    {   
+        $allLang =  \App\Dexlib\Locale::getAllLang(); 
+        return view('settings.translation.create', compact('allLang'));
+    }
+
+      /**
+     * @param null
+     * @return html
+     */
+    public function store(Request $request)
+    {   
+         $lang = $request->input('language');
+         $path = base_path().'/resources/lang/'.$lang;
+         if(File::isDirectory($path)) return redirect()->back()->withErrors([__('application.Language already exist!')]);
+
+         File::makeDirectory($path, $mode = 0777, true, true);
+
+         return redirect()->back()->with('status', __('application.language created successfully.'));
+    }
+
     /**
      * @param null
      * @return html
@@ -70,7 +96,8 @@ class TranslationController extends Controller
   
             $this->file = $fileName;
             $this->read();
-            $contents = $this->arrayLang;
+            $contents = $this->arrayLang; 
+            
         }        
 
         return view('settings.translation.list', compact('langName', 'lang', 'files', 'contents', 'fileName'));
@@ -159,15 +186,28 @@ class TranslationController extends Controller
                 $this->path = base_path().'/resources/lang/'.$this->lang.'/'.$this->file.'.php';
                 
                 if(!File::exists($this->path)){
-                    File::copy($englishMainPath, $this->path);
-                   // file_put_contents( $this->path, ''); 
+                    //File::copy($englishMainPath, $this->path);
+                    file_put_contents( $this->path, ''); 
                     $tranContent = File::getRequire($this->path);           
                 }else{
                     $tranContent = File::getRequire($this->path);
                 }
                 
+                $i = 1;
                 foreach ($content as $key => $value) {
-                    $content[$key] = !empty($tranContent[$key]) ? $tranContent[$key] : '';
+                    /*$content[$key] = !empty($tranContent[$key]) ? $tranContent[$key] : '';*/
+                    if(!is_array( $value)){
+                        $content[$key] = [
+                            'id' => $i,
+                            'original' => $value,
+                            'translate' => !empty($tranContent[$key]) ? $tranContent[$key] : '',
+                            'is_translate' => !empty($tranContent[$key]) ? true : false
+                        ];
+                        
+                        $i++;
+                    }else{
+                        unset($content[$key]);
+                    }
                 }
             }
 
@@ -183,22 +223,41 @@ class TranslationController extends Controller
      * @param array
      * @return json
      */
-    private function translate() 
+    public function translate(Request $request) 
     {   
-        //yandex
-        $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandex_key . "&text=%TEXT%&lang=en-%TARGET%";
-        $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
-        $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
 
-        $response = Siberian_Json::decode(file_get_contents($url));
+        $data =  $request->all();
+        $yandex_key = \setting('yandex_api_key');
+        $googlemaps_key = \setting('googlemaps_key');
+        $transText = '';
 
-        /** Try with google */
-        $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=%TARGET%&dt=t&q=%TEXT%";
-        $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
-        $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
+        if(!empty($yandex_key)){
+            //yandex
+            $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandex_key . "&text=%TEXT%&lang=en-%TARGET%";
+            $url = str_replace("%TEXT%", urlencode($data["original"]), $url);
+            $url = str_replace("%TARGET%", urlencode($data["lang"]), $url);
 
-        $response = Siberian_Json::decode(file_get_contents($url));
-        $result = $response[0][0][0];
+            $response = json_decode(file_get_contents($url), true);
+            $transText = '';
+            if($response['code'] == 200){
+                $transText = $response['text'][0];
+                $transText = str_replace("'", "", $transText);
+            }
+        }
+
+        if(empty($transText)){
+         
+            /** Try with google */
+            $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=%TARGET%&dt=t&q=%TEXT%";
+            $url = str_replace("%TEXT%", urlencode($data["original"]), $url);
+            $url = str_replace("%TARGET%", urlencode($data["lang"]), $url);
+
+            $response = json_decode(file_get_contents($url));
+            $transText = $response[0][0][0];
+            $transText = str_replace("'", "", $transText);     
+        }
+
+        return response()->json(['response'=> true, 'text' => $transText, 'id' => $data['id']]);
 
     }
 

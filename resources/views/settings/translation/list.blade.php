@@ -22,7 +22,7 @@
                         </h5>
 
                         <div class="card-body">
-                           <div class="row">
+                               <div class="row mt-3">
                                 <div class="form-group">
                                     <label class="form-control-label" for="file">
                                         {{ __('application.Select a file') }}
@@ -44,11 +44,22 @@
             </div>
         </div>
     @if(!empty($contents))  
+
+        
+        <div class="row">     
+            <div class="col-xl-12">
+                <button class="btn btn-primary pull-right" id="translateMissing">
+                  {{ __('application.Translate Missing') }}
+                </button>
+            </div>
+        </div>
+
         <form id="settingsValidation" method="post" action="{{ route('translation.save') }}" class="form-horizontal" role="form">
          @csrf
         <input type="hidden" name="fileName" value="{{$fileName}}">
-        <input type="hidden" name="lang" value="{{$lang}}">
+        <input type="hidden" name="lang" id="lang" value="{{$lang}}">
          
+
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                 <div class="card">
@@ -57,7 +68,7 @@
                             <table class="table table-hover">
                                 <thead>
                                      <tr>
-                                        <th scope="col" width="40%">{{ __('application.Key') }}</th>
+                                        <th scope="col" width="40%">{{ __('application.Default translation') }}</th>
                                         <th scope="col" width="60%">{{ __('application.Translation') }}
                                        <i class="small">
                                        ({{ __('application.leave blank to use default translation') }})</i>
@@ -67,14 +78,13 @@
                                  <tbody>
                                     @if(is_array($contents))
                                      @foreach($contents as $key => $value)
-                                        @if(!is_array( $value))
-                                            <tr>
-                                                <td class="wrap">{{ $key }}</td>
-                                                <td>
-                                                    <input class="form-control" type="text" name="translationValues[{{$key}}]" value="{{ $value }}">
-                                                </td>
-                                            </tr>
-                                        @endif
+                                        <tr>
+                                            <td class="wrap">{{ $value['original'] }}</td>
+                                            <td>
+                                                <input class="form-control" type="text" id="translation-input-{{$value['id']}}" data-original="{{ $value['original'] }}" data-id="{{ $value['id'] }}"  name="translationValues[{{$key}}]" value="{{ $value['translate'] }}">
+                                            </td>
+                                        </tr>
+                                    
                                     @endforeach
                                     @endif
                                  </tbody>                       
@@ -110,7 +120,34 @@
             window.location.replace(URL);
           }
           return false;
-    });
-}); 
+        });
+    }); 
+    
+    $('#translateMissing').click(function() {
+        $('input:text').filter(function() { 
+            if($(this).val() == ""){
+            $.ajax({
+                   type: "POST",
+                   headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                   },
+                   url: '{{ URL::route('translation.translate') }}/',
+                   data : { original : $(this).data('original'), lang : $('#lang').val(), 'id': $(this).attr('id')},
+                   dataType: 'json',
+                   success: function( data ) { 
+                       $('#'+data.id).val(data.text);  
+                  },
+                  error: function(jqXHR, textStatus, errorThrown) {
+                   alert(textStatus + ' - '+ jqXHR.statusText);
+                }
+             }); 
+            }; 
+        });
+    }); 
+
+
+
+
+
 </script>
 @endpush

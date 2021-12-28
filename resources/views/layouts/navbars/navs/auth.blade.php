@@ -40,27 +40,20 @@
 
                 @php $locale = session()->get('locale'); 
                     if(empty($locale)) $locale = config('app.locale');
+                    $activeLang =  \App\Dexlib\Locale::getActiveLang();
                 @endphp
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        @switch($locale)
-                            @case('en')
-                                English
-                            @break
-                            @case('hi')
-                                Hindi
-                            @break
-                            @default
-                                English
-                        @endswitch
+                          {{$activeLang[$locale]}}
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/lang/en"><img src="{{asset('img/flags/US.png')}}" width="25px"> English</a>
-                        <a class="dropdown-item" href="/lang/hi"><img src="{{asset('img/flags/IN.png')}}" width="25px"> Hindi</a>
+                        @foreach($activeLang as $key => $value)
+                            <a class="dropdown-item" href="/lang/{{$key}}">{{  $value }}</a>
+                        @endforeach 
                     </div>
-                </li>
+                </li> 
 
             </ul>
         </div>

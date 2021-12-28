@@ -3,7 +3,16 @@
 @section('content')
 <div class="content">
     <div class="container-fluid mt--6">
+
         <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <a href="{{ route('language.create') }}" class="btn btn-primary pull-right">
+                  <span class="fa fa-plus"></span> {{__('application.Create a new language')}}
+                </a> 
+            </div>
+        </div>
+
+        <div class="row  mt-3">
             <div class="col-xl-12 order-xl-1">
                     <div class="card">
                          <h5 class="card-header bg-light">

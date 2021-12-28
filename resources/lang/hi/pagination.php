@@ -1,7 +1,6 @@
-<?php
+<?php 
 
-return
-[
-	'previous' => 'Previous',
-	'next' => 'Next &raquo;',
+ return [ 
+ 	'previous' => 'पिछला',
+	'next' => 'अगले &raquo;',
 ];

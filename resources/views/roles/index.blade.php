@@ -8,7 +8,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <a href="{{ route('roles.create') }}" class="btn btn-primary pull-right">
-                      <span class="fa fa-plus"></span> Create New Role
+                      <span class="fa fa-plus"></span> {{__('auth.Create New Role') }}
                     </a> 
                 </div>
             </div>
