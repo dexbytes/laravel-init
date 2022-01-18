@@ -16,6 +16,7 @@ Route::get('/', function () {
      return redirect('login');
     //return view('welcome');
 });
+
 //Lacal setting 
 Route::get('lang/{locale}', [App\Http\Controllers\Settings\LocalizationController::class, 'index']);
 
