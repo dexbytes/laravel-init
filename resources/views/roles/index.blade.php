@@ -22,8 +22,8 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Name</th>
-                                        <th class="text-center">Actions</th>
+                                        <th> {{__('auth.Name') }}</th>
+                                        <th class="text-center"> {{__('auth.Action') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -32,17 +32,22 @@
                                         <td class="text-center">{{ ++$i }}</td>
                                         <td>{{ $role->name }}</td>
                                         <td class="td-actions text-center">
+                                           @if($role->name != 'Admin')
                                            @can('role-edit')
                                                 <a href="{{ route('roles.edit',$role->id) }}" rel="tooltip" title="Edit" class="btn btn-success btn-link btn-xs">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                             @endcan
                                              @can('role-delete')
+                                             
                                                 <a href="javascript:void(0)" id="{{$role->id}}" data-url="{{ URL::route('roles.destroy', [$role->id]) }}" rel="tooltip" title="Delete" data-heading="Delete role" data-content="Are you sure want to delete this role?" class="btn btn-danger btn-link btn-xs confirm-delete" data-button-text="delete role">
                                                     <i class="fa fa-times"></i>
                                                 </a>
+                                               
                                             @endcan
- 
+                                         @else
+                                            Full Access
+                                          @endif
                                         </td>
                                     </tr>
                                      @endforeach

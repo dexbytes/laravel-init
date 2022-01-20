@@ -38,7 +38,7 @@ class Role extends \App\Dexlib\Form {
 			                'value' => ''
 			            ]
 			        ]
-			    ],
+			    ]/*,
 			    'Permissions' => [
 			        'title' => __('auth.Permission'),
 			        'desc' => __('auth.Assign a permissions'),
@@ -50,10 +50,10 @@ class Role extends \App\Dexlib\Form {
 			                'label' => __('auth.Permission'),
 			                'value' => [],
 			                'rules' => 'required',
-			                'options' => Permission::pluck('name','id')->all()
+			                'options' => Permission::pluck('label_name','id')->all()
 			            ]
 			        ]
-			    ]
+			    ]*/
 				
 		 	];
 	}

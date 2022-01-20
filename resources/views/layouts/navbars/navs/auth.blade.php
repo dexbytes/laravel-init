@@ -24,9 +24,11 @@
                         <i class="nc-icon nc-bullet-list-67"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                         @can('manage-profile')
                         <a class="dropdown-item" href="#">
                             <i class="nc-icon nc-single-02"></i> {{ __('My Profile') }}
                         </a>
+                        @endcan
                         <div class="divider"></div>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf

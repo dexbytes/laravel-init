@@ -83,6 +83,9 @@ return [
     'Manage Roles'    => 'Manage Roles',
     'Role Name'    => 'Role Name',
     'Permission'    => 'Permission',
-    'Assign a permissions'    => 'Assign a permissionss'
+    'Assign a permissions'    => 'Assign a permissionss',
+    'Create New Role' => 'Create New Role',
+    'Name' => 'Name',
+    'Action' => 'Action'
 
 ];

@@ -46,7 +46,21 @@ class RoleController extends Controller
     {
         $form = new RoleForm();
         $elements = $form->getElements();
-        return view('roles.create',compact('elements'));
+
+        $permissions = Permission::all(['id', 'name', 'label_name', 'module'])->toArray();
+        $totalModule = DB::table('permissions')
+                    ->select('module', DB::raw('count(*) as total'))
+                    ->groupBy('module')
+                    ->pluck('total','module');
+
+        $allPermissions = [];
+        foreach ($totalModule as $key => $value) {
+            $allPermissions[$key] = array_filter($permissions, function ($value) use ($key) {
+                    return $value['module'] === $key;
+                });
+        }
+
+        return view('roles.create',compact('elements', 'allPermissions'));
     }
     
     /**
@@ -99,12 +113,24 @@ class RoleController extends Controller
         $formData = [];
         $formData['id'] = $role->id;
         $formData['name'] = $role->name;
-        $formData['permission'] = $rolePermissions;
         
         $form = new RoleForm();
-        $elements = $form->populate($formData);
-         
-        return view('roles.edit',compact('role','rolePermissions', 'elements'));
+        $elements = $form->populate($formData); 
+
+        $permissions = Permission::all(['id', 'name', 'label_name', 'module'])->toArray();
+        $totalModule = DB::table('permissions')
+                    ->select('module', DB::raw('count(*) as total'))
+                    ->groupBy('module')
+                    ->pluck('total','module');
+
+        $allPermissions = [];
+        foreach ($totalModule as $key => $value) {
+            $allPermissions[$key] = array_filter($permissions, function ($value) use ($key) {
+                    return $value['module'] === $key;
+                });
+        }
+    
+        return view('roles.edit',compact('role','rolePermissions', 'elements', 'allPermissions'));
     }
     
     /**

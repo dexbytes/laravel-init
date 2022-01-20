@@ -22,7 +22,7 @@
                         @csrf
                         @if(count($elements))                            
                             @foreach($elements as $section => $fields)
-                                <div class="card">
+                            <div class="card">
                                  <h5 class="card-header bg-light">
                                     <label class="card-title">{{ $fields['title'] }}</label>
                                 </h5>
@@ -32,27 +32,71 @@
                                         <h6 class="card-subtitle mb-2 text-muted">{{  $fields['desc'] }}</h6>
                                     @endif
                                   <div class="row">
-                                        <div class="col-md-7 offset-md-1">
-                                            @foreach($fields['elements'] as $field)
-                                                @includeIf('form.' . $field['type'] )
-                                            @endforeach
+                                     @foreach($fields['elements'] as $field)
+                                        <div class="col-md-4 offset-md-1">
+                                            @includeIf('form.' . $field['type'] )
                                         </div> 
+                                        @endforeach
                                     </div> 
                                 </div>
                             </div>                                 
                             @endforeach
-
                         @endif
-                        <div class="row m-b-md">
-                            <div class="col-md-12">
-                                <button class="btn-primary btn pull-right">
-                                    {{ __('application.Save') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>              
-        </div>
+
+                <div class="card">
+                    <h5 class="card-header bg-light">
+                        <label class="card-title">
+                            {{ __('auth.Permission') }}
+                        </label>
+                    </h5>
+
+                <div class="card-body">                
+                    <div class="row">
+                        @foreach($allPermissions as $key => $permission)
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            {{$key}}
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                
+                                @foreach($permission as $value)
+                                <tr>                                    
+                                    <td>
+                                        <div class="preference">
+                                          <input name="permission[]" class="form-check-input" value="{{ $value['id'] }}" type="checkbox" @if(in_array($value['id'], $rolePermissions)) checked="checked" @endif 
+                                                >
+                                            <label for="permission">
+                                                {{ $value['label_name']}}
+                                            </label>
+                                        </div>
+                                    </td>                                
+                                </tr>
+                                @endforeach
+
+                                </tbody>
+                            </table>
+                        @endforeach
+                    </div>
+                </div>
+            </div> 
+
+            <div class="row m-b-md">
+                <div class="col-md-12">
+                    <button class="btn-primary btn pull-right">
+                        {{ __('application.Save') }}
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+      </div>              
     </div>
+  </div>
 </div>
 @endsection

@@ -21,7 +21,7 @@ Tip 2: you can also add an image using data-image tag data-image="{{ asset('img/
                     <p>{{ __('application.Dashboard') }}</p>
                 </a>
             </li>
-
+            @can('user-list', 'role-list')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#navusers" @if(!empty($activeButton) &&  $activeButton =='users') aria-expanded="true" @endif>
                     <i class="fa fa-users"></i>
@@ -30,28 +30,34 @@ Tip 2: you can also add an image using data-image tag data-image="{{ asset('img/
                         <b class="caret"></b>
                     </p>
                 </a>
+
                 <div class="collapse  @if(!empty($activeButton) && $activeButton =='users') show @endif" id="navusers">
                     <ul class="nav">
  
-                       
+                        @can('user-list')
                             <li class="nav-item @if(!empty($activePage) && $activePage == 'users') active @endif">
                                 <a class="nav-link" href="{{ route('users.index') }}">
                                     <span class="sidebar-mini">{{ __('UR') }}</span>
                                     <span class="sidebar-normal">{{ __('User') }}</span>
                                 </a>
                             </li>
-                       
+                        @endcan
+
+                        @can('role-list')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'roles') active @endif">
                                 <a class="nav-link" href="{{ route('roles.index') }}">
                                     <span class="sidebar-mini">{{ __('RS') }}</span>
                                     <span class="sidebar-normal">{{ __('Roles') }}</span>
                                 </a>
                             </li>
-                       
+                        @endcan
                     </ul>
                 </div>
             </li>
- 
+            @endcan
+
+
+            @can('settings')
             <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#navsettings" @if(!empty($activeButton) &&  $activeButton =='settings') aria-expanded="true" @endif>
                     <i class="fa fa-cog"></i>
@@ -62,50 +68,59 @@ Tip 2: you can also add an image using data-image tag data-image="{{ asset('img/
                 </a>
                 <div class="collapse  @if(!empty($activeButton) && $activeButton =='settings') show @endif" id="navsettings">
                     <ul class="nav">                       
+                           @can('setting-general')
                             <li class="nav-item @if(!empty($activePage) && $activePage == 'general') active @endif">
                                 <a class="nav-link" href="{{ route('settings.general') }}">
                                     <span class="sidebar-mini">{{ __('GN') }}</span>
                                     <span class="sidebar-normal">{{ __('application.General') }}</span>
                                 </a>
                             </li>
-                       
+                            @endcan
+                            @can('setting-api_keys')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'apikey') active @endif">
                                 <a class="nav-link" href="{{ route('settings.index') }}">
                                     <span class="sidebar-mini">{{ __('AK') }}</span>
                                     <span class="sidebar-normal">{{ __('application.Api Keys') }}</span>
                                 </a>
                             </li>
-
+                            @endcan
+                            @can('setting-configuration')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'configuration') active @endif">
                                 <a class="nav-link" href="{{ route('configuration.index') }}">
                                     <span class="sidebar-mini">{{ __('CG') }}</span>
                                     <span class="sidebar-normal">{{ __('application.Configuration') }}</span>
                                 </a>
                             </li>
-                          
+                            @endcan
+                            @can('setting-email-template')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'push') active @endif">
                                 <a class="nav-link" href="#">
                                     <span class="sidebar-mini">{{ __('EM') }}</span>
                                     <span class="sidebar-normal">{{ __('application.Email') }}</span>
                                 </a>
                             </li>
-
+                            @endcan
+                            @can('setting-notifications')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'push') active @endif">
                                 <a class="nav-link" href="#">
                                     <span class="sidebar-mini">{{ __('NT') }}</span>
                                     <span class="sidebar-normal">{{ __('application.Notifications') }}</span>
                                 </a>
                             </li>
-
+                            @endcan
+                            @can('setting-translation')
                             <li class="nav-item @if(!empty($activePage) &&  $activePage == 'translation') active @endif">
                                 <a class="nav-link" href="{{ route('translation.index') }}">
                                     <span class="sidebar-mini">{{ __('TN') }}</span>
                                     <span class="sidebar-normal">{{ __('application.Translations') }}</span>
                                 </a>
                             </li>
+                            @endcan
                     </ul>
                 </div>
             </li>
+            @endcan
+
         </ul>
     </div>
 </div>

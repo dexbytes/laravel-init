@@ -33,6 +33,50 @@
                             @endforeach
 
                         @endif
+
+
+                    <div class="card">
+                    <h5 class="card-header bg-light">
+                        <label class="card-title">
+                            {{ __('auth.Permission') }}
+                        </label>
+                    </h5>
+
+                    <div class="card-body">                
+                        <div class="row">
+                            @foreach($allPermissions as $key => $permission)
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                {{$key}}
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    
+                                    @foreach($permission as $value)
+                                    <tr>                                    
+                                        <td>
+                                            <div class="preference">
+                                              <input name="permission[]" class="form-check-input" value="{{ $value['id'] }}" type="checkbox">
+                                                <label for="permission">
+                                                    {{ $value['label_name']}}
+                                                </label>
+                                            </div>
+                                        </td>                                
+                                    </tr>
+                                    @endforeach
+
+                                    </tbody>
+                                </table>
+                            @endforeach
+                        </div>
+                    </div>
+                </div> 
+
+
                         <div class="row m-b-md">
                             <div class="col-md-12">
                                 <button class="btn-primary btn pull-right">

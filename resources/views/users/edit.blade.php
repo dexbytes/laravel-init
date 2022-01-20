@@ -15,7 +15,8 @@
                 <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
                 <div class="row">
 
-                    <div class="card col-md-8">
+                <div class="col-md-8">
+                    <div class="card">
                         <h5 class="card-header bg-light">
                             <label class="card-title"> {{ __('User informations') }}</label>
                         </h5>
@@ -38,14 +39,14 @@
                                     </div>
                                     <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-email">{{ __('Email') }}</label>
-                                        <input type="email" name="email" id="input-email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" value="{{ $user->email }}" required>
+                                        <input type="email" name="email" id="input-email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="{{ __('Email') }}" value="{{ $user->email }}" readonly>
         
                                         @include('alerts.feedback', ['field' => 'email'])
                                     </div>
                                      <div class="form-group{{ $errors->has('role_id') ? ' has-danger' : '' }}">
                                         <label class="form-control-label" for="input-role">
                                         {{ __('Role') }}</label>
-                                           <select name="roles" id="input-role" class="form-control" required="true">
+                                           <select name="roles" id="input-role" class="form-control" required="true" @if($user->id == 1) readonly @endif>
                                                 <option value="">-</option>
                                                 @foreach($roles as $value)
                                                 <option value="{{$value}}" {{$userRole == $value ? "selected" : ""}}>{{ $value }}</option>
@@ -67,9 +68,15 @@
                                 </div>
                             </form>
 
-                            <hr class="my-4" />
+                        </div>
+                    </div>
 
-                            <form id="changePasswordValidation" method="post" action="#">
+                    <div class="card">
+                        <h5 class="card-header bg-light">
+                            <label class="card-title"> {{ __('auth.Change Password') }}</label>
+                        </h5>
+                        <div class="card-body">
+                                 <form id="changePasswordValidation" method="post" action="#">
                                 @csrf
                                 @method('patch')
         
@@ -104,44 +111,9 @@
                         </div>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="card card-user">
-                            <div class="card-header no-padding">
-                                <div class="card-image">
-                                    <img src="{{ asset('img/full-screen-image-3.jpg') }}" alt="...">
-                                </div>
-                            </div>
-                            <div class="card-body ">
-                                <div class="author">
-                                    <a href="#">
-                                        <img class="avatar border-gray" src="" alt="...">
-                                        <h5 class="card-title">{{ __(auth()->user()->name) }}</h5>
-                                    </a>
-                                    <p class="card-description">
-                                        {{ __('...') }}
-                                    </p>
-                                </div>
-                                <p class="card-description text-center">
-                                    {{ __('Hey there! As you can see,') }}
-                                    <br> {{ __('it is already looking great.') }}
-                                </p>
-                            </div>
-                            <div class="card-footer ">
-                                <hr>
-                                <div class="button-container text-center">
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-facebook-square"></i>
-                                    </button>
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-twitter"></i>
-                                    </button>
-                                    <button href="#" class="btn btn-simple btn-link btn-icon">
-                                        <i class="fa fa-google-plus-square"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                </div>
+
                 </div>
             </div>
         </div>
