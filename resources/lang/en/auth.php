@@ -86,6 +86,10 @@ return [
     'Assign a permissions'    => 'Assign a permissionss',
     'Create New Role' => 'Create New Role',
     'Name' => 'Name',
-    'Action' => 'Action'
+    'Action' => 'Action',
+
+    //User
+    'Save' => 'Save',
+    'Change password' => 'Change password'
 
 ];

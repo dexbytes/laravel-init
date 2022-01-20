@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="searchInput" name="x" placeholder="Search user...">
+                        <input type="text" class="form-control" id="searchInput" name="x" placeholder="{{ __('auth.Search user') }}...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
                         </span>
@@ -16,7 +16,7 @@
                 @can('user-create')
                 <div class="col-md-9 col-xs-6">
                     <a href="{{ route('users.create') }}" class="btn btn-primary pull-right">
-                      <span class="fa fa-plus"></span> Create New User
+                      <span class="fa fa-plus"></span> {{ __('auth.Create New User') }}
                     </a> 
                 </div>
                 @endcan
@@ -30,10 +30,10 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th class="text-center">Role</th>
-                                        <th class="text-center">Actions</th>
+                                        <th>{{ __('auth.Name')}}</th>
+                                        <th>{{ __('auth.Email') }}</th>
+                                        <th class="text-center">{{ __('auth.Role') }}</th>
+                                        <th class="text-center">{{ __('auth.Actions') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>

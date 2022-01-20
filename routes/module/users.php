@@ -7,6 +7,5 @@ Route::group(['middleware' => ['auth']], function () {
 
 	// User Managements
 	Route::resource('roles', Role::class);
-	Route::resource('users', User::class);
-
+	Route::resource('users', User::class); 
 });
