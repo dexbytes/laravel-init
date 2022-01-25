@@ -4,7 +4,11 @@
            class="form-control {{ Arr::get( $field, 'class') }}"
            id="{{ $field['name'] }}"
            cols="{{ $field['cols'] }}"
-           rows="{{ $field['rows'] }}">{{ old($field['name'], $field['value']) }}</textarea>
+           rows="{{ $field['rows'] }}"
+            @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+           required @endif>
+       {{ old($field['name'], $field['value']) }}
+   </textarea>
 
     @if ($errors->has($field['name'])) 
         <small class="help-block">

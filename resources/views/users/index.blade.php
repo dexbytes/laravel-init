@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="content">
-        <div class="container-fluid">
+        <div class="container-fluid">           
             <div class="row">
                 <div class="col-xs-6 col-md-3">
                     <div class="input-group">
@@ -23,6 +23,8 @@
             </div>
 
             <div class="row mt-3">
+                @include('alerts.success')
+                @include('alerts.errors')
                 <div class="col-md-12">
                     <div class="card table-with-links">
                         <div class="card-body table-full-width content table-responsive">
@@ -59,7 +61,7 @@
 
                                             @if($user->id != 1)
                                                 @can('user-delete')
-                                                <a href="#" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-xs">
+                                                 <a href="javascript:void(0)" id="{{$user->id}}" data-url="{{ URL::route('users.destroy', [$user->id]) }}" data-id="{{ $user->id }}" rel="tooltip" title="Delete" data-heading="Delete user" data-content="Are you sure want to delete this user?" class="btn btn-danger btn-link btn-xs confirm-delete" data-button-text="delete user">
                                                     <i class="fa fa-times"></i>
                                                 </a>
                                                 @endcan

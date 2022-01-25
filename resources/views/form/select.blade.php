@@ -4,7 +4,9 @@
     </label>
     <select name="{{ $field['name'] }}" 
             class="form-control {{ Arr::get( $field, 'class') }}" 
-            id="{{ $field['name'] }}">
+            id="{{ $field['name'] }}"  
+            @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+           required @endif>
             @foreach(Arr::get($field, 'options', []) as $val => $label)
                 <option @if( old($field['name'], $field['value']) == $val ) selected  @endif value="{{ $val }}">
                     {{ $label }}

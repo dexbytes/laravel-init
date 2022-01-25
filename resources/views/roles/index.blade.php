@@ -15,6 +15,9 @@
             @endcan
 
             <div class="row mt-3">
+                @include('alerts.success')
+                @include('alerts.errors')
+                
                 <div class="col-md-12">
                     <div class="card table-with-links">
                         <div class="card-body table-full-width content table-responsive">
@@ -40,7 +43,7 @@
                                             @endcan
                                              @can('role-delete')
                                              
-                                                <a href="javascript:void(0)" id="{{$role->id}}" data-url="{{ URL::route('roles.destroy', [$role->id]) }}" rel="tooltip" title="Delete" data-heading="Delete role" data-content="Are you sure want to delete this role?" class="btn btn-danger btn-link btn-xs confirm-delete" data-button-text="delete role">
+                                                <a href="javascript:void(0)" id="{{$role->id}}" data-url="{{ URL::route('roles.destroy', [$role->id]) }}" data-id="{{ $role->id }}" rel="tooltip" title="Delete" data-heading="Delete role" data-content="Are you sure want to delete this role?" class="btn btn-danger btn-link btn-xs confirm-delete" data-button-text="delete role">
                                                     <i class="fa fa-times"></i>
                                                 </a>
                                                

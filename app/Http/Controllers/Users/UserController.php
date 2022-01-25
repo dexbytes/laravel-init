@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
 use Illuminate\Support\Arr;
+use \App\Form\Users\User as UserForm;
     
 class UserController extends Controller
 {
@@ -44,8 +45,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
-        return view('users.create',compact('roles'));
+        $form = new UserForm();
+        $elements = $form->getElements();
+        return view('users.create',compact('elements'));
     }
     
     /**
@@ -93,11 +95,15 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
-        $roles = Role::pluck('name','name')->all();
-        $userRole = $user->roles->pluck('name','name')->first();
-        
-        return view('users.edit',compact('user','roles','userRole'));
+        $user = User::find($id);       
+        $user->roles  = $user->roles->pluck('name','name')->first();
+        $user->password = '';
+
+        $form = new UserForm();
+        $elements = $form->populate($user); 
+
+
+        return view('users.edit',compact('user','elements'));
     }
     
     /**
@@ -170,8 +176,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        return response()->json(['response'=> true]);
     }
 
 

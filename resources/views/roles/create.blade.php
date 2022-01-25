@@ -3,12 +3,20 @@
 @section('content')
 <div class="content">
     <div class="container-fluid mt--6">
+        <div class="row">     
+            <div class="col-xl-12">
+                <a href="{{ route('users.index') }}" class="btn btn-default pull-right">
+                  <span class="nc-icon nc-stre-left"></span>{{ __('application.Back') }}
+                </a> 
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-xl-12 order-xl-1">
                     @include('alerts.success')
                     @include('alerts.errors')
                     
-                    <form id="settingsValidation" method="post" action="{{ route('roles.index') }}" class="form-horizontal" role="form">
+                    <form id="roleValidation" method="post" action="{{ route('roles.index') }}" class="form-horizontal" role="form">
                         @csrf
                         @if(count($elements))                            
                             @foreach($elements as $section => $fields)
@@ -90,3 +98,10 @@
     </div>
 </div>
 @endsection
+@push('js')
+<script type="text/javascript">
+   $(document).ready(function() {
+       setFormValidation('#roleValidation');
+    });
+</script>
+@endpush

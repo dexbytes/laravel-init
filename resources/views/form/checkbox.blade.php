@@ -9,6 +9,8 @@
                                 value="{{ $optionKey }}" 
                                 type="checkbox" 
                                 @if(in_array($optionKey, $field['value'])) checked="checked" @endif
+                                 @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+                                required @endif
                                 >
                         {{ $optionValue }}
                     </label>
@@ -22,6 +24,8 @@
                         value="{{ $field['value'] }}" 
                         type="checkbox" 
                         @if(old($field['name'], $field['value'])) checked="checked" @endif
+                         @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+                        required @endif
                         >
                 {{ $field['label'] }}
             </label>

@@ -59,7 +59,7 @@ class ApiController extends Controller
             }
         }
 
-        return redirect()->back()->with('status', 'Settings has been saved.');
+        return redirect()->back()->with('success', 'Settings has been saved.');
     }
 
     

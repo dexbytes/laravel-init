@@ -8,6 +8,8 @@
                         value="{{$val}}" 
                         type="radio" 
                         @if( old($field['name'], $field['value']) == $val ) checked="checked"  @endif
+                         @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+                            required @endif
                         >
                 {{ $label }}
             </label>

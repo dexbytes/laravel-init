@@ -166,7 +166,7 @@ class TranslationController extends Controller
 
         file_put_contents($this->path, $content);
 
-       return redirect()->back()->with('status', __('application.Translations updated successfully.'));
+       return redirect()->back()->with('success', __('application.Translations updated successfully.'));
     }
 
      /**

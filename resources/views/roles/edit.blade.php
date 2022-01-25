@@ -7,7 +7,7 @@
         <div class="row">     
             <div class="col-xl-12">
                 <a href="{{ route('roles.index') }}" class="btn btn-default pull-right">
-                  <span class="nc-icon nc-stre-left"></span> Back
+                  <span class="nc-icon nc-stre-left"></span> {{ __('application.Back') }}
                 </a> 
             </div>
         </div>
@@ -17,7 +17,7 @@
                     @include('alerts.success')
                     @include('alerts.errors')
                     
-                    <form method="post" action="{{ route('roles.update', [$role->id]) }}">
+                    <form id="roleValidation" method="post" action="{{ route('roles.update', [$role->id]) }}">
                         @method('patch')
                         @csrf
                         @if(count($elements))                            
@@ -100,3 +100,10 @@
   </div>
 </div>
 @endsection
+@push('js')
+<script type="text/javascript">
+   $(document).ready(function() {
+       setFormValidation('#roleValidation');
+    });
+</script>
+@endpush

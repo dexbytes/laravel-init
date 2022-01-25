@@ -90,6 +90,15 @@ return [
 
     //User
     'Save' => 'Save',
-    'Change password' => 'Change password'
+    'Change password' => 'Change password',
+    'User' => 'User',
+    'Email' => 'Email',
+    'Role' => 'Role',
+    'Password' => 'Password',
+    'Confirm Password' => 'Confirm Password',
+    'Back' => 'Back',
+    'Create New User' => 'Create New User',
+    'Actions' => 'Actions',
+    'Search user' => 'Search user'
 
 ];
