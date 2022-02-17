@@ -5,8 +5,7 @@
     <select name="{{ $field['name'] }}" 
             class="form-control {{ Arr::get( $field, 'class') }}" 
             id="{{ $field['name'] }}"  
-            @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
-           required @endif>
+            @if(!empty($field['rules']) && preg_match("~\brequired\b~", $field['rules']) > 0)required @endif>
             @foreach(Arr::get($field, 'options', []) as $val => $label)
                 <option @if( old($field['name'], $field['value']) == $val ) selected  @endif value="{{ $val }}">
                     {{ $label }}

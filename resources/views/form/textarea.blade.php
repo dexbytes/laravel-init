@@ -5,10 +5,8 @@
            id="{{ $field['name'] }}"
            cols="{{ $field['cols'] }}"
            rows="{{ $field['rows'] }}"
-            @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
-           required @endif>
-       {{ old($field['name'], $field['value']) }}
-   </textarea>
+            @if(!empty($field['rules']) && preg_match("~\brequired\b~", $field['rules']) > 0) 
+            required @endif>{{ old($field['name'],$field['value']) }}</textarea>
 
     @if ($errors->has($field['name'])) 
         <small class="help-block">

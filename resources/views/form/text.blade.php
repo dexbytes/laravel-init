@@ -6,9 +6,9 @@
            class="form-control {{ Arr::get( $field, 'class') }}"
            id="{{ $field['name'] }}"
            placeholder="{{ $field['label'] }}"
-           @if(!empty($field['rules']) && strpos($field['rules'],'required') >= 0) 
+           @if(!empty($field['rules']) && preg_match("~\brequired\b~", $field['rules']) > 0) 
            required @endif>
-
+          
     @if ($errors->has($field['name'])) 
         <small class="help-block">
             {{ $errors->first($field['name']) }}
